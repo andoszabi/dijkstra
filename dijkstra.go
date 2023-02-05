@@ -100,11 +100,7 @@ func check_min_T(incidence_matrix [][]float32, T map[int]bool, distance_from_s m
 			}
 		}
 	}
-	if min_T_distance == -1 {
-		can_still_update = false;
-	} else {
-		can_still_update = true;
-	}
+	can_still_update = min_T_distance != -1;
 	return
 }
 
