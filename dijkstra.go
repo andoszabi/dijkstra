@@ -5,31 +5,22 @@ func is_jth_column_an_edge(incidence_matrix [][]float32, j int) (output bool) {
 	output = true
 	var nonzero_values = []int{};
 	for i := 0; i < len(incidence_matrix); i++ {
-		if incidence_matrix[i][j] < 0 {
-			output = false; // dijkstra only works with nonnegative edge weights
-		} else if incidence_matrix[i][j] > 0 {
+		output = incidence_matrix[i][j] >= 0 && output
+		if incidence_matrix[i][j] > 0 {
 			nonzero_values = append(nonzero_values, i);
 		}
 	}
-	if len(nonzero_values) != 2 {
-		output = false;
-	} else if incidence_matrix[nonzero_values[0]][j] != incidence_matrix[nonzero_values[1]][j] {
-		output = false;
-	}
+	output = output && len(nonzero_values) == 2 && incidence_matrix[nonzero_values[0]][j] == incidence_matrix[nonzero_values[1]][j]
 	return
 }
 
 func is_incidence_matrix(incidence_matrix[][]float32) (output bool) {
 	output = true;
 	for i := 0; i < len(incidence_matrix); i++ {
-		if len(incidence_matrix[i]) != len(incidence_matrix[0]) {
-			output = false;
-		}
+		output = output && len(incidence_matrix[i]) == len(incidence_matrix[0])
 	}
 	for j := 0; j < len(incidence_matrix[0]); j++ {
-		if !is_jth_column_an_edge(incidence_matrix, j) {
-			output = false;
-		}
+		output = output && is_jth_column_an_edge(incidence_matrix, j)
 	}
 	return
 }
